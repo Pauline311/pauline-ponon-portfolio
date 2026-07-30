@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; }
+body { @apply bg-slate-950 text-slate-200 antialiased; background-image: radial-gradient(circle at 12% 8%, rgba(56,189,248,.12), transparent 25%), radial-gradient(circle at 88% 10%, rgba(139,92,246,.14), transparent 24%); }
+::selection { @apply bg-sky-400/30 text-white; }
+.glass { @apply border border-white/10 bg-slate-900/55 backdrop-blur-xl; }
+.section { @apply mx-auto max-w-7xl px-6 py-24 md:px-10 lg:py-32; }
+.eyebrow { @apply font-mono text-xs font-medium uppercase tracking-[.22em] text-sky-300; }
+.section-title { @apply mt-3 max-w-2xl text-4xl font-bold tracking-tight text-white md:text-5xl; }
+.grid-lines { background-image: linear-gradient(rgba(148,163,184,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.055) 1px,transparent 1px); background-size: 48px 48px; }
+
+/* Light mode keeps the same sky/violet personality, but switches to a warm paper-like canvas. */
+.theme-light { color: #172033; background: #f7f9fc; }
+.theme-light .grid-lines { background-image: linear-gradient(rgba(51,65,85,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(51,65,85,.08) 1px,transparent 1px); }
+.theme-light .bg-slate-950, .theme-light .bg-slate-950\/75, .theme-light .bg-slate-950\/50 { background-color: #f7f9fc !important; }
+.theme-light .bg-slate-900, .theme-light .bg-slate-900\/30, .theme-light .bg-slate-900\/55, .theme-light .bg-slate-900\/60, .theme-light .bg-slate-900\/70, .theme-light .bg-slate-900\/80 { background-color: rgba(255,255,255,.82) !important; }
+.theme-light .border-white\/5, .theme-light .border-white\/10, .theme-light .border-white\/15, .theme-light .border-white\/20 { border-color: rgba(51,65,85,.16) !important; }
+.theme-light .text-white, .theme-light .text-slate-200 { color: #172033 !important; }
+.theme-light .text-slate-300 { color: #334155 !important; }
+.theme-light .text-slate-400, .theme-light .text-slate-500 { color: #64748b !important; }
+.theme-light .bg-white\/5, .theme-light .bg-white\/10, .theme-light .bg-white\/\[\.03\] { background-color: rgba(51,65,85,.06) !important; }
+.theme-light .bg-slate-800 { background-color: #e2e8f0 !important; }
+.theme-light .shadow-sky-950 { --tw-shadow-color: rgba(14,116,144,.12) !important; }
+.theme-light .from-slate-950\/45 { --tw-gradient-from: rgba(248,250,252,.68) var(--tw-gradient-from-position) !important; }
+.theme-light .via-slate-900 { --tw-gradient-via: #fff var(--tw-gradient-via-position) !important; }
+.theme-light .glass { background-color: rgba(255,255,255,.74) !important; }
+/* Catch Tailwind opacity variants as well, so text stays legible on every card and overlay. */
+.theme-light [class*="text-white"] { color: #172033 !important; }
+.theme-light [class*="text-slate-2"] { color: #1e293b !important; }
+.theme-light [class*="text-slate-3"] { color: #334155 !important; }
+.theme-light [class*="text-slate-4"], .theme-light [class*="text-slate-5"] { color: #64748b !important; }
+.theme-light [class*="bg-slate-950"] { background-color: rgba(248,250,252,.94) !important; }
+.theme-light [class*="bg-slate-900"] { background-color: rgba(255,255,255,.86) !important; }
+
+/* Compact layout only: desktop sizing and composition remain unchanged. */
+@media (max-width: 767px) {
+  .section { padding: 4.5rem 1.25rem; }
+  .section-title { font-size: 2.15rem; line-height: 1.12; }
+  .hero-section { min-height: auto; padding-top: 6.25rem; padding-bottom: 2.5rem; }
+  .hero-layout { gap: 1.5rem; text-align: center; }
+  .hero-copy > * { margin-left: auto; margin-right: auto; }
+  .hero-copy h1 { font-size: clamp(3rem, 14vw, 4.15rem); line-height: .92; }
+  .hero-copy > p:last-of-type { max-width: 33rem; font-size: .98rem; line-height: 1.65; }
+  .hero-copy .mt-5 { margin-top: .75rem; }
+  .hero-copy .mt-6 { margin-top: 1rem; justify-content: center; }
+  .hero-copy .mt-9 { margin-top: 1.25rem; display: grid; width: min(100%, 23rem); gap: .65rem; }
+  .hero-copy .mt-9 > * { min-height: 3.2rem; justify-content: center; }
+  .hero-copy .mt-10 { margin-top: 1.25rem; justify-content: center; }
+  .hero-copy .mt-10 a { height: 3rem; width: 3rem; font-size: 1.08rem; }
+  .hero-image { width: min(52vw, 190px); max-width: 190px; margin-top: .35rem; margin-bottom: .25rem; }
+  .hero-image > div { border-radius: 1.35rem; }
+  .hero-image > div > div { border-radius: 1.25rem; padding: .45rem; }
+  .hero-image img { border-radius: 1rem; }
+  #education .grid, #contact .grid { gap: 2rem; }
+  #education .section, #certifications .section { padding-top: 4rem; padding-bottom: 4rem; }
+  #projects .p-7 { padding: 1.35rem; }
+  #projects .text-3xl { font-size: 1.75rem; }
+  #certifications .p-6 { padding: 1.15rem; }
+  #contact .px-7 { padding-left: 1.25rem; padding-right: 1.25rem; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-image { max-width: 290px; }
+  .hero-layout { gap: 3rem; }
+}
