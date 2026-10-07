@@ -4,16 +4,26 @@
 @tailwind utilities;
 
 html { scroll-behavior: smooth; }
-body { @apply bg-slate-950 text-slate-200 antialiased; background-image: radial-gradient(circle at 12% 8%, rgba(56,189,248,.12), transparent 25%), radial-gradient(circle at 88% 10%, rgba(139,92,246,.14), transparent 24%); }
+body { @apply bg-slate-950 text-slate-200 antialiased; background-image: radial-gradient(circle at 12% 8%, rgba(112,133,74,.15), transparent 25%), radial-gradient(circle at 88% 10%, rgba(190,136,104,.13), transparent 24%); }
 ::selection { @apply bg-sky-400/30 text-white; }
 .glass { @apply border border-white/10 bg-slate-900/55 backdrop-blur-xl; }
 .section { @apply mx-auto max-w-7xl px-6 py-24 md:px-10 lg:py-32; }
 .eyebrow { @apply font-mono text-xs font-medium uppercase tracking-[.22em] text-sky-300; }
 .section-title { @apply mt-3 max-w-2xl text-4xl font-bold tracking-tight text-white md:text-5xl; }
 .grid-lines { background-image: linear-gradient(rgba(148,163,184,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.055) 1px,transparent 1px); background-size: 48px 48px; }
+.hero-image:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid #a3b96d; outline-offset: 4px; }
+.profile-photo { position: relative; }
+.profile-photo img { display: block; aspect-ratio: 1 / 1.08; object-fit: cover; object-position: center 15%; }
+.profile-modal-photo { position: relative; }
+.profile-modal-photo img { display: block; aspect-ratio: 1 / 1.08; object-fit: cover; object-position: center 15%; }
+.modal-backdrop { background: rgba(10, 17, 13, .76); backdrop-filter: blur(10px); }
+.modal-card { background: #132019; }
 
 /* Light mode keeps the same sky/violet personality, but switches to a warm paper-like canvas. */
 .theme-light { color: #172033; background: #f7f9fc; }
+.theme-light .hero-image > div { box-shadow: 0 24px 60px rgba(166, 129, 74, .22); }
+.theme-light .modal-card { background: #fffdf8; }
+.theme-light .modal-backdrop { background: rgba(41, 53, 35, .36); }
 .theme-light .grid-lines { background-image: linear-gradient(rgba(51,65,85,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(51,65,85,.08) 1px,transparent 1px); }
 .theme-light .bg-slate-950, .theme-light .bg-slate-950\/75, .theme-light .bg-slate-950\/50 { background-color: #f7f9fc !important; }
 .theme-light .bg-slate-900, .theme-light .bg-slate-900\/30, .theme-light .bg-slate-900\/55, .theme-light .bg-slate-900\/60, .theme-light .bg-slate-900\/70, .theme-light .bg-slate-900\/80 { background-color: rgba(255,255,255,.82) !important; }
@@ -65,4 +75,8 @@ body { @apply bg-slate-950 text-slate-200 antialiased; background-image: radial-
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero-image { max-width: 290px; }
   .hero-layout { gap: 3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
