@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/pauline-ponon-portfolio/',
+  base: process.env.VERCEL ? '/' : '/pauline-ponon-portfolio/',
 })
