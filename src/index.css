@@ -8,6 +8,12 @@ html {
   scroll-behavior: smooth;
 }
 
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   @apply bg-slate-950 text-slate-200 antialiased;
   background-image:
@@ -27,8 +33,20 @@ body {
   @apply mx-auto max-w-7xl px-6 py-24 md:px-10 lg:py-32;
 }
 
+/* Terminal-style label: "> 01 / About me_" with blinking cursor */
 .eyebrow {
   @apply font-mono text-xs font-medium uppercase tracking-[.22em] text-sky-300;
+}
+
+.eyebrow::before {
+  content: '> ';
+  opacity: .6;
+}
+
+.eyebrow::after {
+  content: '_';
+  margin-left: 2px;
+  animation: blink 1s steps(2, start) infinite;
 }
 
 .section-title {
@@ -81,6 +99,120 @@ a:focus-visible {
 }
 
 /* =========================================
+   ANIMATIONS (IT / tech feel)
+   ========================================= */
+
+@keyframes blink {
+  to { opacity: 0; }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes float-up {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(-115vh) rotate(14deg); opacity: 0; }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+@keyframes scan {
+  0%   { top: -4%; }
+  100% { top: 104%; }
+}
+
+/* Rotating gradient ring around the profile photo */
+.spin-ring {
+  position: absolute;
+  inset: -60%;
+  background: conic-gradient(from 0deg, #38bdf8, #8b5cf6, #38bdf8, #8b5cf6, #38bdf8);
+  animation: spin-slow 5s linear infinite;
+}
+
+/* Floating code symbols in the page background */
+.code-float {
+  animation-name: float-up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+/* Tech marquee strip */
+.marquee {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Small floating tech icons */
+.icon-float {
+  animation: bob 3s ease-in-out infinite;
+}
+
+/* Light sweep over cards on hover */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(125,211,252,.16) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform .9s ease;
+  pointer-events: none;
+}
+
+.card-shine:hover::after {
+  transform: translateX(120%);
+}
+
+/* Scanning line over project visuals */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.75), transparent);
+  box-shadow: 0 0 12px rgba(255,255,255,.5);
+  animation: scan 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spin-ring,
+  .code-float,
+  .marquee-track,
+  .icon-float,
+  .scan-line,
+  .eyebrow::after {
+    animation: none;
+  }
+}
+
+/* =========================================
    LIGHT MODE
    ========================================= */
 
@@ -89,8 +221,8 @@ a:focus-visible {
   background: #f7f9fc;
 }
 
-.theme-light .hero-image > div {
-  box-shadow: 0 24px 60px rgba(166, 129, 74, .22);
+.theme-light .hero-frame {
+  box-shadow: 0 24px 60px rgba(14, 116, 144, .25);
 }
 
 .theme-light .modal-card {
@@ -194,147 +326,176 @@ a:focus-visible {
   background-color: rgba(255,255,255,.86) !important;
 }
 
+/* ---- Light mode: readable accent colors (sky/violet 200-300 are too pale on white) ---- */
+
+.theme-light .text-sky-200,
+.theme-light .text-sky-300,
+.theme-light .eyebrow,
+.theme-light .hover\:text-sky-300:hover {
+  color: #0369a1 !important;
+}
+
+.theme-light .text-violet-200,
+.theme-light .text-violet-300,
+.theme-light .group:hover .group-hover\:text-violet-300 {
+  color: #6d28d9 !important;
+}
+
+.theme-light .bg-sky-300 {
+  background-color: #0284c7 !important;
+}
+
+.theme-light .section-title {
+  color: #172033 !important;
+}
+
+.theme-light .border-slate-950 {
+  border-color: #f7f9fc !important;
+}
+
+/* "Ponon." gradient name */
+.theme-light .from-sky-300 {
+  --tw-gradient-from: #0284c7 var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgb(2 132 199 / 0) var(--tw-gradient-to-position) !important;
+}
+
+.theme-light .to-violet-400 {
+  --tw-gradient-to: #7c3aed var(--tw-gradient-to-position) !important;
+}
+
+/* Project colored panel keeps white text in light mode */
+.theme-light .project-visual,
+.theme-light .project-visual [class*="text-white"] {
+  color: #fff !important;
+}
+
+.theme-light .project-visual [class*="bg-slate-950"] {
+  background-color: rgba(2,6,23,.35) !important;
+}
+
+.theme-light .card-shine::after {
+  background: linear-gradient(115deg, transparent 35%, rgba(14,165,233,.14) 50%, transparent 65%);
+}
+
 
 /* =========================================
    MOBILE RESPONSIVE
    ========================================= */
 
 @media (max-width: 767px) {
+
+  /* Tighter section spacing (was 6rem top/bottom) */
   .section {
-    padding: 4rem 1rem;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
-  .section-title {
-    font-size: 2rem;
-    line-height: 1.12;
-  }
+  /* ---------- HERO ---------- */
 
-  /* HERO */
+  /* Navbar spacing is handled by pt-24 on #home */
   .hero-section {
     min-height: auto;
-    padding-top: 5rem;
+    padding-top: 1rem;
     padding-bottom: 3rem;
   }
 
+  /*
+    2-column grid:
+    left  = text
+    right = profile photo (beside "Hello, I'm Pauline Ponon.")
+    hero-copy uses display: contents so its children
+    can be placed directly on this grid.
+  */
   .hero-layout {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) 150px !important;
-    gap: 1rem !important;
-    align-items: center !important;
-    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 128px;
+    column-gap: 1rem;
+    row-gap: 0;
+    align-items: start;
   }
 
   .hero-copy {
-    min-width: 0;
-    width: 100%;
+    display: contents;
   }
 
-  .hero-copy > * {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  /* Availability badge */
-  .hero-copy .mb-5 {
-    font-size: 0.7rem;
-    line-height: 1.3;
-    padding: 0.45rem 0.65rem;
-    white-space: normal;
-  }
-
-  /* Hello, I'm */
-  .hero-copy > p.font-mono {
-    font-size: 0.85rem;
-  }
-
-  /* NAME */
-  .hero-copy h1 {
-    font-size: clamp(2.8rem, 12vw, 4rem) !important;
-    line-height: 0.9;
-    margin-top: 0.5rem;
-  }
-
-  /* Typing text */
-  .hero-copy .mt-6 {
-    margin-top: 0.85rem;
-    font-size: 0.8rem;
-    justify-content: flex-start !important;
-  }
-
-  /* Description */
-  .hero-copy > p:last-of-type {
-    margin-top: 0.85rem;
+  .hero-badge {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: start;
     max-width: 100%;
-    font-size: 0.9rem;
-    line-height: 1.55;
   }
 
-  /* Buttons */
-  .hero-copy .mt-9 {
-    margin-top: 1rem;
-    display: flex !important;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    width: 100%;
+  .hero-hello {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: end;
   }
 
-  .hero-copy .mt-9 > * {
-    min-height: 2.8rem;
-    padding: 0.65rem 0.8rem;
-    font-size: 0.72rem;
+  .hero-name {
+    grid-column: 1;
+    grid-row: 3;
+    align-self: start;
+    font-size: clamp(2.4rem, 11.5vw, 3.4rem);
+    line-height: .95;
+    letter-spacing: -.06em;
   }
 
-  /* Social icons */
-  .hero-copy .mt-10 {
-    margin-top: 1rem;
-    justify-content: flex-start !important;
-  }
-
-  .hero-copy .mt-10 a {
-    width: 2.7rem;
-    height: 2.7rem;
-    font-size: 0.95rem;
-  }
-
-  /* PROFILE PHOTO */
+  /* Bigger profile photo */
   .hero-image {
-    display: block !important;
-    width: 150px !important;
-    max-width: 150px !important;
-    margin: 0 0 0 auto !important;
-    justify-self: end !important;
-    align-self: center !important;
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    align-self: center;
+    justify-self: end;
+    width: 128px;
+    max-width: 128px;
+    margin: 0;
   }
 
-  .hero-image > div {
-    border-radius: 1.25rem;
+  .hero-typed {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    min-height: auto;
+    align-items: flex-start;
   }
 
-  .hero-image > div > div {
-    border-radius: 1.1rem;
-    padding: 0.35rem;
+  .hero-desc {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    max-width: none;
   }
 
-  .hero-image img {
-    display: block;
-    width: 100%;
-    border-radius: 0.9rem;
+  .hero-actions {
+    grid-column: 1 / -1;
+    grid-row: 6;
   }
 
+  .hero-social {
+    grid-column: 1 / -1;
+    grid-row: 7;
+  }
+
+  /* Photo frame styling */
+  .hero-frame {
+    border-radius: 1.4rem;
+  }
+
+  .hero-frame .profile-photo {
+    border-radius: 1.3rem;
+    padding: .3rem;
+  }
+
+  .hero-frame img {
+    border-radius: 1rem;
+  }
+
+  /* Hover-only label and desktop chips are hidden on touch screens */
   .hero-image .absolute {
     display: none;
   }
 
-  #education .grid,
-  #contact .grid {
-    gap: 2rem;
-  }
-
-  #education .section,
-  #certifications .section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
+  /* ---------- OTHER SECTIONS ---------- */
 
   #projects .p-7 {
     padding: 1.35rem;
@@ -351,5 +512,22 @@ a:focus-visible {
   #contact .px-7 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
+  }
+}
+
+/* Smaller phones */
+@media (max-width: 380px) {
+  .hero-layout {
+    grid-template-columns: minmax(0, 1fr) 104px;
+    column-gap: .75rem;
+  }
+
+  .hero-image {
+    width: 104px;
+    max-width: 104px;
+  }
+
+  .hero-name {
+    font-size: clamp(2.2rem, 11vw, 2.8rem);
   }
 }
